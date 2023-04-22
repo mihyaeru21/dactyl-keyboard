@@ -1258,7 +1258,7 @@ def make_dactyl():
             tbcut_file = path.join(parts_path, r"trackball_socket_cutter_34mm")
 
         if ENGINE == 'cadquery':
-            sens_file = path.join(parts_path, r"gen_holder")
+            sens_file = path.join(parts_path, r"generated_holder_mb")
         else:
             sens_file = path.join(parts_path, r"trackball_sensor_mount")
 
