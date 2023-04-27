@@ -1081,6 +1081,9 @@ def make_dactyl():
         min_last_col = first_bottom_key()
         if ncols >= min_last_col:
             for i in range(ncols - min_last_col):
+                if i <= 1: # 無駄な壁が生成されるのを抑制する
+                    continue
+
                 x = i + min_last_col
                 actually_this_row = bottom_key(x)
                 # if x == 4 and inner_column:
@@ -1091,6 +1094,9 @@ def make_dactyl():
 
         if ncols >= min_last_col + 1:
             for i in range(ncols - (min_last_col + 1)):
+                if i <= 1: # 無駄な壁が生成されるのを抑制する
+                    continue
+
                 x = i + (min_last_col + 1)
                 actually_this_row = bottom_key(x)
                 # if x == 4 and inner_column:
@@ -1222,6 +1228,10 @@ def make_dactyl():
         undercut = box(external_holder_width + 8, 10.0, external_holder_height + 8 + .1)
         shape = union([shape, translate(undercut, (0, -5, 0))])
 
+        # 溝
+        rail = box(external_holder_width + 2.0, 1.0, external_holder_height)
+        shape = union([shape, translate(rail, (0, 2.125, 0))])
+
         shape = translate(shape,
                           (
                               external_start[0] + external_holder_xoffset,
@@ -1271,8 +1281,11 @@ def make_dactyl():
 
         shape = import_file(tb_file)
         sensor = import_file(sens_file)
+        sensor = rotate(sensor, [0, 0, -90])
         cutter = import_file(tbcut_file)
-        cutter = union([cutter, import_file(senscut_file)])
+        senscutter =import_file(senscut_file)
+        senscutter = rotate(senscutter, [0, 0, -90])
+        cutter = union([cutter, senscutter])
 
         # return shape, cutter
         return shape, cutter, sensor
